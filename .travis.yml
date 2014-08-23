@@ -1,0 +1,11 @@
+language: python
+python: "2.7"
+
+install:
+  - sudo apt-get update
+  - pip install ansible
+
+script:
+  - ansible-playbook -i inventory/travis.ini test.yml --connection=local --sudo
+  - php -v
+
