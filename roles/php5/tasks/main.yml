@@ -20,5 +20,16 @@
   with_items: php_packages
   when: ansible_os_family == "Debian"
 
+- name: Compile desired php.ini
+  set_fact: php_ini="{{ hwr_config_php_ini + php_ini }}"
+
+- name: Configuration
+  ini_file: >
+    dest="{{ hwr_path_php_ini_cli }}"
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+  with_items: php_ini
+
 # ex: ft=ansible et sw=2 ts=2:
 

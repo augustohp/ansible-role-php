@@ -16,4 +16,6 @@ hwr_default_php_packages:
   - php5-dev
   - php5-xdebug
 
+hwr_path_php_ini_cli: /etc/php5/cli/php.ini
+
 # ex: filetype=ansible et sw=2 ts=2:
