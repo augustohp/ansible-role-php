@@ -2,8 +2,12 @@
 - name: All available roles _o7
   hosts: all
   sudo: yes
-  roles:
-    - php5
+  vars_files:
+    - 'defaults/main.yml'
+  tasks:
+    - include: 'tasks/main.yml'
+  handlers:
+    - include: 'handlers/main.yml'
 
 # ex: filetype=ansible et ts=2 sw=2:
 
