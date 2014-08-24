@@ -1,0 +1,24 @@
+---
+galaxy_info:
+    author: Augusto Pascutti
+    description: Installs and configures PHP (+FPM).
+    company: PHPSP
+    license: MIT
+    min_ansible_version: 1.5
+    plataforms:
+        - name: Ubuntu
+          versions:
+            - precise
+            - quantal
+            - raring
+            - saucy
+            - trusty
+        - name: Debian
+          versions:
+            - squeeze
+            - wheezy
+    categories:
+      - web
+      - development
+    dependencies: []
+# ex: ft=ansible et sw=2 ts=2:
