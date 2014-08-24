@@ -1,0 +1,5 @@
+---
+- name: Restart PHP-FPM
+  service: name="{{ hwr_binary_php_fpm }}" state="restarted"
+
+# ex: ft=ansible et sw=2 ts=2:

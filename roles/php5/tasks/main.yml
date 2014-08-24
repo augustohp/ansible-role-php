@@ -3,7 +3,7 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Define packages to install
-  set_fact: php_packages="{{ hwr_default_php_packages | list }}"
+  set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages | list }}"
   when: php_packages is not defined
 
 - name: Enable LTS (Debian-squeeze)
@@ -23,7 +23,7 @@
 - name: Compile desired php.ini
   set_fact: php_ini="{{ hwr_config_php_ini + php_ini }}"
 
-- name: Configuration
+- name: CLI's php.ini configuration
   ini_file: >
     dest="{{ hwr_path_php_ini_cli }}"
     section="{{ item.section }}"
@@ -31,5 +31,50 @@
     value="{{ item.value }}"
   with_items: php_ini
 
-# ex: ft=ansible et sw=2 ts=2:
+- name: Compile desired php-fpm.ini
+  set_fact: php_fpm_ini="{{ hwr_config_php_fpm + php_fpm_ini }}"
 
+- name: FPM's php.ini configuration
+  ini_file: >
+    dest="{{ hwr_path_php_ini_fpm }}"
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+  with_items: php_ini
+  when: hwr_options.enable_fpm
+
+- name: FPM configuration
+  ini_file: >
+    dest="{{ hwr_path_php_fpm_ini }}"
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+  with_items: php_fpm_ini
+  when: hwr_options.enable_fpm
+
+- name: Remove default pool
+  file: >
+    path="{{ hwr_path_php_fpm_pools }}/www.conf"
+    state="absent"
+  when: hwr_options.enable_fpm
+  notify:
+    - Restart PHP-FPM
+
+- name: Create FPM pools
+  template: >
+    src=fpm-pool.conf.j2
+    dest="{{ hwr_path_php_fpm_pools }}/{{ item.name }}.conf"
+    backup=yes
+  with_items: hwr_fpm_pools
+  when: hwr_options.enable_fpm
+  notify:
+    - Restart PHP-FPM
+
+- name: Enable PHP-FPM service
+  service: >
+    name="{{ hwr_service_php_fpm }}"
+    state="started"
+    enabled="yes"
+  when: hwr_options.enable_fpm
+
+# ex: ft=ansible et sw=2 ts=2:

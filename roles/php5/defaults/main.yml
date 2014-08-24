@@ -1,9 +1,18 @@
 ---
+
+hwr_options:
+  enable_fpm: yes
+
 php_ini:
   # Use this in your playbooks to define your desired configuration
   - section: "PHP"
     option: "display_errors"
     value: "On"
+
+php_fpm_ini:
+  - section: "global"
+    option: "error_log"
+    value: "/var/log/php5-fpm.log"
 
 hwr_config_php_ini:
   - section: "PHP"
@@ -100,7 +109,64 @@ hwr_config_php_ini:
     option: "session.serialize_handler"
     value: "php"
 
+hwr_config_php_fpm:
+  - section: "global"
+    option: "pid"
+    value: "/var/run/php5-fpm.pid"
+  - section: "global"
+    option: "error_log"
+    value: "/var/log/php5-fpm.log"
+  - section: "global"
+    option: "syslog.facility"
+    value: "daemon"
+  - section: "global"
+    option: "syslog.ident"
+    value: "php-fpm"
+  - section: "global"
+    option: "log_level"
+    value: "notice"
+  - section: "global"
+    option: "emergency_restart_threshold"
+    value: 0
+  - section: "global"
+    option: "emergency_restart_interval"
+    value: 0
+  - section: "global"
+    option: "process_control_timeout"
+    value: 0
+  - section: "global"
+    option: "daemonize"
+    value: "yes"
+  - section: "global"
+    option: "rlimit_files"
+    value: 1024
+  - section: "global"
+    option: "rlimit_core"
+    value: 0
+  - section: "global"
+    option: "include"
+    value: "etc/php5/fpm/pool.d/*.conf"
 
-
+hwr_fpm_pools:
+  - name: default
+    user: "{{ hwr_http_user }}"
+    group: "{{ hwr_http_user_group }}"
+    priority: -19
+    listen: 8000
+    listen.allowed_clients: ""
+    listen.backlog: 128
+    listen.owner: "{{ hwr_http_user }}"
+    listen.group: "{{ hwr_http_user_group }}"
+    chdir: /var/www/default
+    pm: dynamic
+    pm.max_children: 10
+    pm.start_servers: 2
+    pm.min_spare_servers: 2
+    pm.max_spare_servers: 5
+    pm.process_idle_timeout: "10s"
+    pm.max_requests: 0
+    pm.status_path: "/status"
+    access.log: "log/default.access.log"
+    access.format: "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
 
 # ex: filetype=ansible et ts=2 sw=2:

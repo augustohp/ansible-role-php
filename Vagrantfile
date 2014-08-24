@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "chef/debian-7.4"
   config.vm.network "private_network", ip: "192.168.27.10"
   config.vm.hostname = "test.ansible.pascutti.dev"
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "web", "/var/www/default"
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "ansible-tests"

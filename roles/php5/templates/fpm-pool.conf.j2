@@ -1,0 +1,9 @@
+; {{ ansible_managed }}
+
+[{{ item.name }}]
+{% for option, value in item.iteritems() if option != "name" %}
+    {{ option }} = {{ value }};
+{% endfor %}
+
+
+# ex: ft=jinja et sw=4 ts=4:
