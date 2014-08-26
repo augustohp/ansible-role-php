@@ -22,7 +22,7 @@ hwr_binary_php_fpm: php5-fpm
 hwr_service_php_fpm: php5-fpm
 hwr_path_php_ini_cli: /etc/php5/cli/php.ini
 hwr_path_php_ini_fpm: /etc/php5/fpm/php.ini
-hwr_path_php_fpm_ini: /etc/php5/fpm/php-fpm.conf
+hwr_path_php_fpm_conf: /etc/php5/fpm/php-fpm.conf
 hwr_path_php_fpm_pools: /etc/php5/fpm/pool.d
 hwr_http_user: www-data
 hwr_http_user_group: www-data

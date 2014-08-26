@@ -9,11 +9,6 @@ php_ini:
     option: "display_errors"
     value: "On"
 
-php_fpm_ini:
-  - section: "global"
-    option: "error_log"
-    value: "/var/log/php5-fpm.log"
-
 hwr_config_php_ini:
   - section: "PHP"
     option: "short_open_tag"
@@ -109,55 +104,28 @@ hwr_config_php_ini:
     option: "session.serialize_handler"
     value: "php"
 
-hwr_config_php_fpm:
-  - section: "global"
-    option: "pid"
-    value: "/var/run/php5-fpm.pid"
-  - section: "global"
-    option: "error_log"
-    value: "/var/log/php5-fpm.log"
-  - section: "global"
-    option: "syslog.facility"
-    value: "daemon"
-  - section: "global"
-    option: "syslog.ident"
-    value: "php-fpm"
-  - section: "global"
-    option: "log_level"
-    value: "notice"
-  - section: "global"
-    option: "emergency_restart_threshold"
-    value: 0
-  - section: "global"
-    option: "emergency_restart_interval"
-    value: 0
-  - section: "global"
-    option: "process_control_timeout"
-    value: 0
-  - section: "global"
-    option: "daemonize"
-    value: "yes"
-  - section: "global"
-    option: "rlimit_files"
-    value: 1024
-  - section: "global"
-    option: "rlimit_core"
-    value: 0
-  - section: "global"
-    option: "include"
-    value: "/etc/php5/fpm/pool.d/*.conf"
+hwr_fpm_conf:
+  pid: '/var/run/php5-fpm.pid'
+  error_log: '/var/log/php5-fpm.log'
+  log_level: 'notice'
+  emergency_restart_threshold: 0
+  emergency_restart_interval: 0
+  process_control_timeout: 0
+  daemonize: yes
+  rlimit_files: 1024
+  rlimit_core: 0
+  include: '/etc/php5/fpm/pool.d/*.conf'
 
 hwr_fpm_pools:
   - name: default
     user: "{{ hwr_http_user }}"
     group: "{{ hwr_http_user_group }}"
-    priority: -19
     listen: 8000
     listen.allowed_clients: ""
     listen.backlog: 128
     listen.owner: "{{ hwr_http_user }}"
     listen.group: "{{ hwr_http_user_group }}"
-    chdir: "{{ php_fpm_default_chdir | default('/var/www/default') }}"
+    chdir: "{{ hwr_php_fpm_default_chdir | default('/var/www/default') }}"
     pm: dynamic
     pm.max_children: 10
     pm.start_servers: 2
@@ -166,7 +134,7 @@ hwr_fpm_pools:
     pm.process_idle_timeout: "10s"
     pm.max_requests: 0
     pm.status_path: "/status"
-    access.log: "log/default.access.log"
+    access.log: "/var/log/default.access.log"
     access.format: "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
 
 # ex: filetype=ansible et ts=2 sw=2:

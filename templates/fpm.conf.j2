@@ -1,0 +1,15 @@
+; {{ ansible_managed }}
+
+[global]
+pid = {{ hwr_fpm_conf.pid | default('/var/run/php5-fpm.pid') }}
+error_log = {{ hwr_fpm_conf.error_log | default('/var/log/php5-fpm.log') }}
+log_level = {{ hwr_fpm_conf.log_level | default('notice') }}
+emergency_restart_threshold = {{ hwr_fpm_conf.emergency_restart_threshold | default('0') }}
+emergency_restart_interval = {{ hwr_fpm_conf.emergency_restart_interval | default('0') }}
+process_control_timeout = {{ hwr_fpm_conf.process_control_timeout | default('0') }}
+daemonize = {{ hwr_fpm_conf.daemonize | default('yes') }}
+rlimit_files = {{ hwr_fpm_conf.rlimit_files | default('1024') }}
+rlimit_core = {{ hwr_fpm_conf.rlimit_core | default('0') }}
+include = {{ hwr_fpm_conf.include | default('/etc/php5/fpm/pool.d/*.conf') }}
+
+# ex: ft=jinja et sw=4 ts=4:
