@@ -8,4 +8,4 @@ install:
 script:
   - ansible-playbook -i inventory/travis.ini test.yml --connection=local --sudo
   - php -v
-
+  - php5-fpm -t

@@ -145,7 +145,7 @@ hwr_config_php_fpm:
     value: 0
   - section: "global"
     option: "include"
-    value: "etc/php5/fpm/pool.d/*.conf"
+    value: "/etc/php5/fpm/pool.d/*.conf"
 
 hwr_fpm_pools:
   - name: default
