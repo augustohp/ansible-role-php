@@ -1,4 +1,5 @@
 ---
+hwr_apt_default_release: stable
 hwr_default_php_packages:
   - php5
   - php5-cli

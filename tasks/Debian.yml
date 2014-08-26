@@ -1,0 +1,48 @@
+---
+- name: Debian | Include role variables
+  include_vars: "Debian.yml"
+
+- name: Dabian (squeeze) | Include role variables
+  include_vars: "Debian-squeeze.yml"
+  when: ansible_lsb.codename == 'squeeze'
+
+- name: Debian (squeeze) | Enable LTS
+  apt_repository: >
+    repo='deb http://http.debian.net/debian/ squeeze-lts main contrib non-free'
+    state=present
+  when: ansible_lsb.codename == 'squeeze'
+
+- name: Debian | Compile PHP packages to install
+  set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages | list }}"
+  when: php_packages is not defined
+
+- name: Debian | Import GPG keys for custom repositories
+  apt_key: >
+    url="{{ item.url }}"
+    state="{{ item.state }}"
+  with_items: hwr_apt_keys
+  when:
+    - ansible_os_family == "Debian"
+    - hwr_apt_keys is defined
+
+- name: Debian | Enable APT repositories
+  apt_repository: >
+    repo="{{ item.repo }}"
+    state="{{ item.state }}"
+    update_cache=yes
+  with_items: hwr_apt_repositories
+  when:
+    - ansible_os_family == "Debian"
+    - hwr_apt_repositories is defined
+
+- name: Debian | Installation
+  apt: >
+    name={{ item }}
+    state=installed
+    default_release="{{ hwr_apt_default_release }}"
+    update_cache=yes
+    cache_valid_time=300
+  with_items: php_packages
+  when: ansible_os_family == "Debian"
+
+# ex: ft=ansible et sw=2 ts=2:

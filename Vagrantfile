@@ -20,4 +20,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.name = "ansible-php-role-debian-wheezy"
     end
   end
+
+  config.vm.define "squeeze", autostart: false do |debian|
+    debian.vm.box = "chef/debian-6.0.8"
+    debian.vm.network "private_network", ip: "192.168.27.11"
+    debian.vm.hostname = "php-role.squeeze.debian.local"
+
+    debian.vm.provider :virtualbox do |vb|
+      vb.name = "ansible-php-role-debian-squeeze"
+    end
+  end
 end

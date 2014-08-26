@@ -1,0 +1,16 @@
+---
+hwr_apt_default_release: squeeze-backports
+
+hwr_apt_keys:
+  - url: "http://www.dotdeb.org/dotdeb.gpg"
+    state: present
+
+hwr_apt_repositories:
+  - repo: 'deb http://backports.debian.org/debian-backports squeeze-backports main'
+    state: present
+  - repo: 'deb http://packages.dotdeb.org squeeze-php54 all'
+    state: present
+  - repo: 'deb-src http://packages.dotdeb.org squeeze-php54 all'
+    state: present
+
+# ex: filetype=ansible et sw=2 ts=2:
