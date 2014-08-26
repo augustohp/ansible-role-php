@@ -17,7 +17,7 @@ different repositories to use as source for [Debian][]. The following variables
 can be used:
 
 - `php_packages`: A list of package names to be used by [APT][]. If you want [FPM][] support, `php5-fpm` **must** be in this list.
-- `hwr_apt_default_release`: Release of debian to be used for package installation. (Ex: stable, backport)
+- `hwr_apt_default_release`: Release of debian to be used for package installation. (Ex: stable, backport, precise-stable, precise-backport)
 - Key and repository management:
     - `hwr_apt_keys`: List of keys to be added to [APT][], each item must have the following attributes: `url` and `state`.
     - `hwr_apt_repositories`: List of repositories to be added to [APT][], each item must have the following attributes: `repo` and `state`
