@@ -10,6 +10,20 @@ Installs and configures PHP (and also FPM if needed).
 
 See [defaults/main.yml][1] for variables available to overwrite.
 
+### Debian configuration
+
+You can set up a different group of packages to be installed, as well as add
+different repositories to use as source for [Debian][]. The following variables
+can be used:
+
+- `php_packages`: A list of package names to be used by [APT][]. If you want [FPM][] support, `php5-fpm` **must** be in this list.
+- `hwr_apt_default_release`: Release of debian to be used for package installation. (Ex: stable, backport)
+- Key and repository management:
+    - `hwr_apt_keys`: List of keys to be added to [APT][], each item must have the following attributes: `url` and `state`.
+    - `hwr_apt_repositories`: List of repositories to be added to [APT][], each item must have the following attributes: `repo` and `state`
+
+You can see an example of how to use it by taking a look on `vars/Debian-squeeze.yml` file.
+
 ### Using PHP-FPM
 
 You can disable (it is enabled by default) installation and creation of
@@ -48,7 +62,7 @@ variable, which is already defined depending on your operating system.
 All pools kept by this role are defined under `hwr_fpm_pools` variable. It is a list
 where each item is a different pool with all its configuration.
 
-Each item (pool) can have [any valid configuration of a **FPM pool**][fpm-pool], the
+Each item (pool) can have [any valid configuration of a FPM pool][fpm-conf], the
 default values are show below:
 
     hwr_fpm_pools:
@@ -95,3 +109,5 @@ file, and should be used on every pool you create.
 [3]: https://github.com/augustohp
 [fpm]: http://br1.php.net/manual/en/book.fpm.php "PHP Manual: FastCGI Process Manager"
 [fpm-conf]: http://php.net/manual/en/install.fpm.configuration.php "PHP Manual: FPM Configuration"
+[Debian]: http://www.debian.org/
+[APT]: https://wiki.debian.org/Apt
