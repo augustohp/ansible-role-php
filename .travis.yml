@@ -5,7 +5,12 @@ install:
   - sudo apt-get update
   - pip install ansible
 
+before_script:
+  - sudo mkdir -p /var/www/default
+
 script:
   - ansible-playbook -i inventory/travis.ini test.yml --connection=local --sudo
   - php -v
-  - php5-fpm -t
+  - sudo php5-fpm -t
+
+# ex: et sw=2 ts=2:

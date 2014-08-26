@@ -31,9 +31,6 @@
     value="{{ item.value }}"
   with_items: php_ini
 
-- name: Compile desired php-fpm.ini
-  set_fact: php_fpm_ini="{{ hwr_config_php_fpm + php_fpm_ini }}"
-
 - name: FPM's php.ini configuration
   ini_file: >
     dest="{{ hwr_path_php_ini_fpm }}"
@@ -44,12 +41,10 @@
   when: hwr_options.enable_fpm
 
 - name: FPM configuration
-  ini_file: >
-    dest="{{ hwr_path_php_fpm_ini }}"
-    section="{{ item.section }}"
-    option="{{ item.option }}"
-    value="{{ item.value }}"
-  with_items: php_fpm_ini
+  template: >
+    src="fpm.conf.j2"
+    dest="{{ hwr_path_php_fpm_conf }}"
+    backup=yes
   when: hwr_options.enable_fpm
 
 - name: Remove default pool
