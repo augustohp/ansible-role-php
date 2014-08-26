@@ -157,7 +157,7 @@ hwr_fpm_pools:
     listen.backlog: 128
     listen.owner: "{{ hwr_http_user }}"
     listen.group: "{{ hwr_http_user_group }}"
-    chdir: /var/www/default
+    chdir: "{{ php_fpm_default_chdir | default('/var/www/default') }}"
     pm: dynamic
     pm.max_children: 10
     pm.start_servers: 2
