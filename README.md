@@ -15,7 +15,7 @@ See [defaults/main.yml][1] for variables available to overwrite.
     ---
     - hosts: all
       roles:
-        - { role: php }
+        - { role: augustohp.php }
 
 ## License
 
