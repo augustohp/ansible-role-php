@@ -1,23 +1,5 @@
 ---
-- name: Include default role variables
-  include_vars: "{{ ansible_os_family }}.yml"
-
-- name: Define packages to install
-  set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages | list }}"
-  when: php_packages is not defined
-
-- name: Enable LTS (Debian-squeeze)
-  apt_repository: >
-    repo='deb http://http.debian.net/debian/ squeeze-lts main contrib non-free'
-    state=present
-  when: ansible_lsb.codename == 'squeeze'
-
-- name: Installation (Debian-family)
-  apt: >
-    name={{ item }}
-    state=installed
-    update_cache=yes
-  with_items: php_packages
+- include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
 - name: Compile desired php.ini

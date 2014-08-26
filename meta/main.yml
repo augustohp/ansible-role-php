@@ -1,7 +1,7 @@
 ---
 galaxy_info:
     author: Augusto Pascutti
-    description: Installs and configures PHP (+FPM).
+    description: Installs and configures PHP (+FPM), flexible configuration and sensible defaults.
     company: PHPSP
     license: MIT
     min_ansible_version: 1.5
