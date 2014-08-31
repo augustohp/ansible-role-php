@@ -1,0 +1,39 @@
+# tasks/composer.yml
+#
+# Installs composer and global composer packages.
+---
+
+- name: Composer | Download and Install globaly.
+  shell: "curl -sS https://getcomposer.org/installer | php -- --install-dir={{ hwr_composer_bin_path }} creates={{ hwr_composer_bin_path }}/composer.phar"
+
+- set_fact: hwr_composer="{{ hwr_composer_bin_path }}/composer.phar"
+
+- name: Composer | Enabled execution bit.
+  file: >
+    path="{{ hwr_composer }}"
+    mode=0755
+    state=file
+
+- name: "Composer | Link composer binary to '{{ hwr_composer_bin_name }}' command."
+  file: >
+    src="{{ hwr_composer_bin_path }}/composer.phar"
+    dest="{{ hwr_composer_bin_path }}/{{ hwr_composer_bin_name }}"
+    mode=0755
+    force=yes
+    state=link
+  when: hwr_composer_bin_name is defined
+
+
+- name: Composer | Install global packages.
+  command: "{{ hwr_composer }} global require {{ item }}"
+  with_items: hwr_composer_packages
+  when: hwr_composer_packages is defined
+
+- name: Composer | Crontab for self-update.
+  cron: >
+    name="Composer self-update"
+    special_time=daily
+    job="{{ hwr_composer }} self-update --no-interaction"
+    state=present
+
+# ex: ft=ansible et sw=2 ts=2:

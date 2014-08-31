@@ -15,6 +15,7 @@ hwr_default_php_packages:
   - php5-dbg
   - php5-dev
   - php5-xdebug
+  - curl # Required for composer
 
 hwr_php_fpm_packages:
   - php5-fpm

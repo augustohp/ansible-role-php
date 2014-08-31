@@ -1,6 +1,6 @@
 # PHP Role for Ansible [![Build Status](https://travis-ci.org/augustohp/ansible-role-php.svg?branch=master)](https://travis-ci.org/augustohp/ansible-role-php)
 
-Installs and configures PHP (and also FPM if needed).
+Manages PHP and FPM.
 
 ## Requirements
 
@@ -8,7 +8,29 @@ Installs and configures PHP (and also FPM if needed).
 
 ## Role variables
 
-See [defaults/main.yml][1] for variables available to overwrite.
+See [defaults/main.yml][1] for variables available to overwrite, the most usefull ones are listed below:
+
+| Variable name | Value Type | Default Value | Description |
+|---------------|------------|---------------|-------------|
+| hwr_options.install_composer | boolean | yes | Installs [Composer][] globally |
+| php_ini | list | Default, development values | List of `php.ini` to use on environment |
+| hwr_options.enable_fpm | boolean | yes | Enable creation and installation of PHP-FPM, as well as creation of FPM pools defined in another variable. |
+| hwr_fpm_pools | list | Pool with DocRoot to `/var/www/default` | List of FPM pools to be created  and enabled |
+| hwr_php_fpm_default_chdir | string | `/var/www/default` | Default document root for the default PHP FPM pool |
+
+## Composer
+
+Composer installation is enabled by default, making `composer` as command available to you.
+Packages can also be installed using `hwr_composer_packages` variable, like:
+
+    hwr_composer_packages:
+        - "phpunit/phpunit:@stable"
+        - "behat/behat:dev-master"
+
+Although the packages are installed, you need to manage the `PATH` variable of your environment
+in order to have these commands available, adding `$COMPOSER_HOME/vendor/bin` directory to it.
+
+A cron job is installed in order to daily update composer also.
 
 ### Debian configuration
 
@@ -93,6 +115,19 @@ file, and should be used on every pool you create.
 
     ---
     - hosts: all
+      vars:
+        hwr_php_fpm_default_chwdir: "/var/www"
+        hwr_options.enable_fpm: yes
+        php_ini:
+          - section: "PHP"
+            option: "display_errors"
+            value: "On"
+          - section: "PHP"
+            option: "error_reporting"
+            value: -1
+          - section: "Date"
+            option: "date.timezone"
+            value: "America/Sao_Paulo"
       roles:
         - { role: augustohp.php }
 
@@ -111,3 +146,4 @@ file, and should be used on every pool you create.
 [fpm-conf]: http://php.net/manual/en/install.fpm.configuration.php "PHP Manual: FPM Configuration"
 [Debian]: http://www.debian.org/
 [APT]: https://wiki.debian.org/Apt
+[composer]: http://getcomposer.org "Composer"
