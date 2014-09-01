@@ -2,6 +2,7 @@
 
 hwr_options:
   enable_fpm: yes
+  install_composer: yes
 
 php_ini:
   # Use this in your playbooks to define your desired configuration
@@ -136,5 +137,13 @@ hwr_fpm_pools:
     pm.status_path: "/status"
     access.log: "/var/log/default.access.log"
     access.format: "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
+
+# Path where composer will be installed
+hwr_composer_bin_path: "/usr/bin"
+# The name of the composer binary after installation
+hwr_composer_bin_name: "composer"
+# Composer packages to install globally
+hwr_composer_packages:
+  - "phpunit/phpunit:@stable"
 
 # ex: filetype=ansible et ts=2 sw=2:
