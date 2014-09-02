@@ -2,6 +2,13 @@
 
 Manages PHP and FPM.
 
+| Operating System                | PHP 5.3 | PHP 5.4 | PHP 5.5 |
+|---------------------------------|---------|---------|---------|
+| Debian 6 (Squeeze)              | *Yes*   | Yes     |         |
+| Debian 7 (Wheezy)               |         | *Yes*   | Yes     |
+| Ubuntu 12.04 (Precise Pangolin) | *Yes*   | Yes     | Yes     |
+| Ubuntu 14.04 (Trusty Tahr)      |         |         | *Yes*   |
+
 ## Requirements
 
 - Ansible 1.5 or greater
@@ -13,7 +20,9 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 | Variable name | Value Type | Default Value | Description |
 |---------------|------------|---------------|-------------|
 | hwr_options.install_composer | boolean | yes | Installs [Composer][] globally |
+| hwr_options.php_version | float | null | Install a different PHP version on the system from the one provided by the distro. |
 | php_ini | list | Default, development values | List of `php.ini` to use on environment |
+| php_packages | list | Platform dependent | List of packages to be installed, see `vars/Debian.yml` for an example. |
 | hwr_options.enable_fpm | boolean | yes | Enable creation and installation of PHP-FPM, as well as creation of FPM pools defined in another variable. |
 | hwr_fpm_pools | list | Pool with DocRoot to `/var/www/default` | List of FPM pools to be created  and enabled |
 | hwr_php_fpm_default_chdir | string | `/var/www/default` | Default document root for the default PHP FPM pool |

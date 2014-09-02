@@ -1,16 +1,14 @@
 ---
-- name: Debian | Include role variables
+- name: Debian | Include role variables.
   include_vars: "Debian.yml"
 
-- name: Dabian (squeeze) | Include role variables
-  include_vars: "Debian-squeeze.yml"
-  when: ansible_lsb.codename == 'squeeze'
+- name: Debian | Define current distribution and required PHP version.
+  set_fact: hwr_path_debian_version_variables="Debian_{{ ansible_lsb.codename }}_php{{ hwr_options.php_version }}.yml"
+  when: hwr_options.php_version is defined
 
-- name: Debian (squeeze) | Enable LTS
-  apt_repository: >
-    repo='deb http://http.debian.net/debian/ squeeze-lts main contrib non-free'
-    state=present
-  when: ansible_lsb.codename == 'squeeze'
+- name: Dabian | Include LSB and PHP version variables
+  include_vars: "{{ hwr_path_debian_version_variables }}"
+  when: hwr_path_debian_version_variables is defined
 
 - name: Debian | Compile PHP packages to install
   set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages | list }}"
@@ -22,7 +20,6 @@
     state="{{ item.state }}"
   with_items: hwr_apt_keys
   when:
-    - ansible_os_family == "Debian"
     - hwr_apt_keys is defined
 
 - name: Debian | Enable APT repositories
@@ -32,7 +29,6 @@
     update_cache=yes
   with_items: hwr_apt_repositories
   when:
-    - ansible_os_family == "Debian"
     - hwr_apt_repositories is defined
 
 - name: Debian | Installation
@@ -43,6 +39,5 @@
     update_cache=yes
     cache_valid_time=300
   with_items: php_packages
-  when: ansible_os_family == "Debian"
 
 # ex: ft=ansible et sw=2 ts=2:

@@ -1,0 +1,12 @@
+---
+hwr_apt_keys:
+  - url: "http://www.dotdeb.org/dotdeb.gpg"
+    state: present
+
+hwr_apt_repositories:
+  - repo: 'deb http://packages.dotdeb.org squeeze-php54 all'
+    state: present
+  - repo: 'deb-src http://packages.dotdeb.org squeeze-php54 all'
+    state: present
+
+# ex: filetype=ansible et ts=2 sw=2:

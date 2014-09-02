@@ -1,0 +1,14 @@
+# Debian 7 (Wheezy)
+# PHP 5.4
+---
+hwr_apt_keys:
+  - url: "http://www.dotdeb.org/dotdeb.gpg"
+    state: present
+
+hwr_apt_repositories:
+  - repo: 'deb http://packages.dotdeb.org wheezy all'
+    state: present
+  - repo: 'deb-src http://packages.dotdeb.org wheezy all'
+    state: present
+
+# ex: filetype=ansible et ts=2 sw=2:
