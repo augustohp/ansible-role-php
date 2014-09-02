@@ -10,6 +10,11 @@ process_control_timeout = {{ hwr_fpm_conf.process_control_timeout | default('0')
 daemonize = {{ hwr_fpm_conf.daemonize | default('yes') }}
 rlimit_files = {{ hwr_fpm_conf.rlimit_files | default('1024') }}
 rlimit_core = {{ hwr_fpm_conf.rlimit_core | default('0') }}
+
+{% if hwr_fpm_conf.events_mechanism is defined %}
+events.mechanism = {{ hwr_fpm_conf.events_mechanism }}
+{% endif %}
+
 include = {{ hwr_fpm_conf.include | default('/etc/php5/fpm/pool.d/*.conf') }}
 
 # ex: ft=jinja et sw=4 ts=4:
