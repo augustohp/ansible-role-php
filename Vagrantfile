@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby et ts=2 sw=2:
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -19,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "wheezy", primary: true, autostart: true do |debian|
     debian.vm.box = "chef/debian-7.4"
     debian.vm.network "private_network", ip: "192.168.27.10"
-    debian.vm.hostname = "php-role.wheezy.debian.local"
+    debian.vm.hostname = "wheezy.debian.local"
 
     debian.vm.provider :virtualbox do |vb|
       vb.name = "ansible-php-role-debian-wheezy"
@@ -30,7 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "squeeze", autostart: false do |debian|
     debian.vm.box = "chef/debian-6.0.8"
     debian.vm.network "private_network", ip: "192.168.27.11"
-    debian.vm.hostname = "php-role.squeeze.debian.local"
+    debian.vm.hostname = "squeeze.debian.local"
 
     debian.vm.provider :virtualbox do |vb|
       vb.name = "ansible-php-role-debian-squeeze"
@@ -40,8 +39,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ubuntu 12.04 LTS
   config.vm.define "precise", autostart: false do |ubuntu|
     ubuntu.vm.box = "precise64"
-    ubuntu.vm.network "private_network", ip: "192.168.27.11"
-    ubuntu.vm.hostname = "php-role.precise.ubuntu.local"
+    ubuntu.vm.network "private_network", ip: "192.168.27.12"
+    ubuntu.vm.hostname = "precise.ubuntu.local"
 
     ubuntu.vm.provider :virtualbox do |vb|
       vb.name = "ansible-php-role-ubuntu-precise"
@@ -51,8 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ubuntu 14.04 LTS
   config.vm.define "trusty", primary: true, autostart: true do |ubuntu|
     ubuntu.vm.box = "ubuntu/trusty64"
-    ubuntu.vm.network "private_network", ip: "192.168.28.13"
-    ubuntu.vm.hostname = "php-role.trusty.ubuntu.local"
+    ubuntu.vm.network "private_network", ip: "192.168.27.13"
+    ubuntu.vm.hostname = "trusty.ubuntu.local"
 
     ubuntu.vm.provider :virtualbox do |vb|
       vb.name = "ansible-php-role-ubuntu-trusty"
@@ -62,8 +61,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # CentOS 6
   config.vm.define "centos6", autostart: false do |ubuntu|
     ubuntu.vm.box = "chef/centos-6.5"
-    ubuntu.vm.network "private_network", ip: "192.168.28.14"
-    ubuntu.vm.hostname = "php-role.6-5.centos.local"
+    ubuntu.vm.network "private_network", ip: "192.168.27.14"
+    ubuntu.vm.hostname = "6-5.centos.local"
 
     ubuntu.vm.provider :virtualbox do |vb|
       vb.name = "ansible-php-role-centos-6.5"
