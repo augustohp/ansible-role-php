@@ -74,6 +74,7 @@ change just the ones you want to really overwrite.
       daemonize: yes
       rlimit_files: 1024
       rlimit_core: 0
+      events.mechanism: ** not set: autodetect **
       include: '/etc/php5/fpm/pool.d/*.conf'
 
 The path to the configuration file is also configured though `hwr_path_php_fpm_ini`
