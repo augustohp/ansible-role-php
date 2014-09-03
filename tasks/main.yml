@@ -17,6 +17,19 @@
     value="{{ item.value }}"
   with_items: php_ini
 
+- name: Configure Extensions
+  template: >
+    src=extension.ini.j2
+    dest=/etc/php5/mods-available/{{ item.name }}.ini
+  with_items: php_extensions_config
+
+- name: Enable Extensions
+  file: >
+    src=/etc/php5/mods-available/{{ item.name }}.ini
+    dest=/etc/php5/conf.d/{{ item.priority | default(20) }}-{{ item.name }}.ini
+    state=link
+  with_items: php_extensions_config
+
 - include: "fpm.yml"
   when: hwr_options.enable_fpm
 

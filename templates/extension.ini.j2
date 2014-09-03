@@ -1,0 +1,7 @@
+; {{ ansible_managed }}
+
+extension = {{ item.name }}.so
+
+{% for option, value in item.iteritems() if option not in ["name","priority"] %}
+{{ option }} = {{ value }}
+{% endfor %}

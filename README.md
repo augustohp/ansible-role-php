@@ -28,6 +28,7 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 | hwr_options.enable_fpm | boolean | yes | Enable creation and installation of PHP-FPM, as well as creation of FPM pools defined in another variable. |
 | hwr_fpm_pools | list | Pool with DocRoot to `/var/www/default` | List of FPM pools to be created  and enabled |
 | hwr_php_fpm_default_chdir | string | `/var/www/default` | Default document root for the default PHP FPM pool |
+| php_extensions_config | dict | empty | Set custom config for php modules, takes a `name` (required), `priority` and the `option:value` itself |
 
 ### PECL packages
 
@@ -156,6 +157,10 @@ file, and should be used on every pool you create.
         php_pecl_packages:
             - mongo
             - timezonedb
+        php_extensions_config:
+          - name: apc
+            apc.cache_by_default: 0
+            apc.enable_cli: 1
       roles:
         - { role: augustohp.php }
 

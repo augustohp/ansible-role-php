@@ -145,4 +145,6 @@ hwr_composer_bin_name: "composer"
 hwr_composer_packages:
   - "phpunit/phpunit:@stable"
 
+php_extensions_config: []
+
 # ex: filetype=ansible et ts=2 sw=2:
