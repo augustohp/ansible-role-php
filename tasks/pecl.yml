@@ -1,0 +1,17 @@
+# tasks/pecl.yml
+#
+# Installs pecl packages
+---
+
+- name: PEAR | Ensure package is installed (Debian).
+  apt: >
+    pkg="{{ item }}"
+    state=present
+  with_items: hwr_php_packages_pear
+  when: ansible_os_family == "Debian"
+
+- name: PECL | Install packages.
+  shell: "printf \"\\n\" | pecl install --force {{ item }}"
+  with_items: php_pecl_packages
+
+# ex: ft=ansible et sw=2 ts=2:

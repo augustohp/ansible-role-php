@@ -20,6 +20,9 @@ hwr_default_php_packages:
 hwr_php_fpm_packages:
   - php5-fpm
 
+hwr_php_packages_pear:
+  - php-pear
+
 hwr_binary_php_fpm: php5-fpm
 hwr_service_php_fpm: php5-fpm
 hwr_path_php_ini_cli: /etc/php5/cli/php.ini

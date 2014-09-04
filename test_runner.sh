@@ -23,7 +23,7 @@ function testMachineProvisioning
 
     echo ">>> Execute test assertion on VM."
     $VAGRANT ssh $machineName --command "php -v" &> $logFile || { return 4; }
-    $VAGRANT ssh $machineName --command "sudo php5-fpm -v" &> $logFile || { return 4; }
+    $VAGRANT ssh $machineName --command "sudo php5-fpm -t" &> $logFile || { return 4; }
     return 0;
 }
 
