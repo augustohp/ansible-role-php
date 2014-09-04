@@ -1,0 +1,9 @@
+# Ubuntu 12.04 LTS (Precise)
+# PHP 5.5
+---
+hwr_apt_keys: []
+hwr_apt_repositories:
+  - repo: "ppa:ondrej/php5"
+    state: present
+
+# ex: filetype=ansible et ts=2 sw=2:

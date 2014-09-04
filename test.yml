@@ -1,5 +1,5 @@
 ---
-- name: All available roles _o7
+- name: Test | Install and configure PHP.
   hosts: all
   sudo: yes
   vars_files:

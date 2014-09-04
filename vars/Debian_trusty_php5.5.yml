@@ -1,0 +1,5 @@
+# Ubuntu trusty 14.04 (LTS)
+# PHP 5.5 configuration
+---
+hwr_apt_keys: []
+hwr_apt_repositories: []

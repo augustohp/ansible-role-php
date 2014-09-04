@@ -5,7 +5,6 @@ hwr_options:
   install_composer: yes
 
 php_ini:
-  # Use this in your playbooks to define your desired configuration
   - section: "PHP"
     option: "display_errors"
     value: "On"
