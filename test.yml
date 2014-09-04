@@ -4,6 +4,12 @@
   sudo: yes
   vars_files:
     - 'defaults/main.yml'
+  vars:
+    php_packages_extra:
+      - mongodb
+    php_pecl_packages:
+      - timezonedb
+      - mongo
   tasks:
     - include: 'tasks/main.yml'
   handlers:

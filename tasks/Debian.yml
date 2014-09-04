@@ -11,7 +11,7 @@
   when: hwr_path_debian_version_variables is defined
 
 - name: Debian | Compile PHP packages to install
-  set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages | list }}"
+  set_fact: php_packages="{{ hwr_default_php_packages + hwr_php_fpm_packages + php_packages_extra | list }}"
   when: php_packages is not defined
 
 - name: Debian | Import GPG keys for custom repositories

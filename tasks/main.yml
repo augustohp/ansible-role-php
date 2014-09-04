@@ -1,4 +1,8 @@
 ---
+- name: Ensure php_packages_extra is defined.
+  set_fact: php_packages_extra=[]
+  when: php_packages_extra is not defined
+
 - include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
@@ -18,5 +22,8 @@
 
 - include: "composer.yml"
   when: hwr_options.install_composer
+
+- include: "pecl.yml"
+  when: php_pecl_packages is defined
 
 # ex: ft=ansible et sw=2 ts=2:

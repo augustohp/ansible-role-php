@@ -23,11 +23,24 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 | hwr_options.php_version | float | null | Install a different PHP version on the system from the one provided by the distro. |
 | php_ini | list | Default, development values | List of `php.ini` to use on environment |
 | php_packages | list | Platform dependent | List of packages to be installed, see `vars/Debian.yml` for an example. |
+| php_pecl_packages | list | `[]` | List of [pecl][] packages to install. |
+| php_packages_extra | list | `[]` | List of OS packages to install (Utility configuration). |
 | hwr_options.enable_fpm | boolean | yes | Enable creation and installation of PHP-FPM, as well as creation of FPM pools defined in another variable. |
 | hwr_fpm_pools | list | Pool with DocRoot to `/var/www/default` | List of FPM pools to be created  and enabled |
 | hwr_php_fpm_default_chdir | string | `/var/www/default` | Default document root for the default PHP FPM pool |
 
-## Composer
+### PECL packages
+
+You can install/compile a list of [PECL][] packages using `php_pecl_packages` variables:
+
+    php_pecl_packages:
+        - timezonedb
+
+You still need to manage extension loading and configuration through `php.ini`.
+Be aware that some [PECL][] packages depend on other libraries to be compiles, installation of
+these libraries should be handled by you using `php_packages_extra` configuration list.
+
+### Composer
 
 Composer installation is enabled by default, making `composer` as command available to you.
 Packages can also be installed using `hwr_composer_packages` variable, like:
@@ -138,6 +151,11 @@ file, and should be used on every pool you create.
           - section: "Date"
             option: "date.timezone"
             value: "America/Sao_Paulo"
+        php_packages_extra:
+            - mongodb
+        php_pecl_packages:
+            - mongo
+            - timezonedb
       roles:
         - { role: augustohp.php }
 
@@ -157,3 +175,4 @@ file, and should be used on every pool you create.
 [Debian]: http://www.debian.org/
 [APT]: https://wiki.debian.org/Apt
 [composer]: http://getcomposer.org "Composer"
+[pecl]: http://pecl.php.net "PECL: The PHP Extension Community Library"
