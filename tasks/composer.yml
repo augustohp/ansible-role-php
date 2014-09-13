@@ -28,6 +28,8 @@
   command: "{{ hwr_composer }} global require {{ item }}"
   with_items: hwr_composer_packages
   when: hwr_composer_packages is defined
+  register: composer_result
+  changed_when: '"Nothing to install or update" not in composer_result.stdout_lines'
 
 - name: Composer | Crontab for self-update.
   cron: >
