@@ -1,7 +1,7 @@
 ; {{ ansible_managed }}
 
-extension = {{ item.name }}.so
+extension = {{ item.extension_path }}
 
-{% for option, value in item.iteritems() if option not in ["name","priority"] %}
+{% for option, value in item.iteritems() if option not in ["file_name", "extension_path"] %}
 {{ option }} = {{ value }}
 {% endfor %}

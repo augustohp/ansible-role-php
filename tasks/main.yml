@@ -6,29 +6,16 @@
 - include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
-- name: Compile desired php.ini
+- name: Compile desired php.ini.
   set_fact: php_ini="{{ hwr_config_php_ini + php_ini }}"
 
-- name: CLI's php.ini configuration
+- name: CLI's php.ini configuration.
   ini_file: >
     dest="{{ hwr_path_php_ini_cli }}"
     section="{{ item.section }}"
     option="{{ item.option }}"
     value="{{ item.value }}"
   with_items: php_ini
-
-- name: Configure Extensions
-  template: >
-    src=extension.ini.j2
-    dest=/etc/php5/mods-available/{{ item.name }}.ini
-  with_items: php_extensions_config
-
-- name: Enable Extensions
-  file: >
-    src=/etc/php5/mods-available/{{ item.name }}.ini
-    dest=/etc/php5/conf.d/{{ item.priority | default(20) }}-{{ item.name }}.ini
-    state=link
-  with_items: php_extensions_config
 
 - include: "fpm.yml"
   when: hwr_options.enable_fpm

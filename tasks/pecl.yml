@@ -3,7 +3,7 @@
 # Installs pecl packages
 ---
 
-- name: PEAR | Ensure package is installed (Debian).
+- name: PECL | Ensure package is installed (Debian).
   apt: >
     pkg="{{ item }}"
     state=present
@@ -14,4 +14,21 @@
   shell: "printf \"\\n\" | pecl install --force {{ item }}"
   with_items: php_pecl_packages
 
+- name: PECL | Apply/Enable extension configurations.
+  template: >
+    src=extension.ini.j2
+    dest="{{ hwr_path_php_mods_enabled }}/{{ item.file_name }}"
+  with_items: php_extensions_config
+
+- name: PECL | Search for unmanaged extension configuration.
+  shell: 'grep -L "^; Ansible managed:" {{ hwr_path_php_mods_enabled }}/*.ini'
+  register: _unmanaged_conf_files
+  when: hwr_options.remove_unmanaged_extension_configuration
+
+- name: PECL | Remove unmanaged configuration files.
+  file: >
+    path="{{ item }}"
+    state="absent"
+  with_items: _unmanaged_conf_files.stdout_lines
+  when: hwr_options.remove_unmanaged_extension_configuration
 # ex: ft=ansible et sw=2 ts=2:

@@ -3,6 +3,7 @@
 hwr_options:
   enable_fpm: yes
   install_composer: yes
+  remove_unmanaged_extension_configuration: no
 
 php_ini:
   - section: "PHP"
@@ -145,6 +146,10 @@ hwr_composer_bin_name: "composer"
 hwr_composer_packages:
   - "phpunit/phpunit:@stable"
 
-php_extensions_config: []
+php_extensions_config:
+  - file_name: apc.ini
+    extension_path: apc.so
+    apc.enable: 1
+    apc.enable_cli: 1
 
 # ex: filetype=ansible et ts=2 sw=2:
