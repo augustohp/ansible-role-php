@@ -21,6 +21,7 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 |---------------|------------|---------------|-------------|
 | hwr_options.install_composer | boolean | yes | Installs [Composer][] globally |
 | hwr_options.php_version | float | null | Install a different PHP version on the system from the one provided by the distro. |
+| hwr_options.remove_unmanaged_extension_configuration | boolean | no | Remove unmanaged extension configuration files. |
 | php_ini | list | Default, development values | List of `php.ini` to use on environment |
 | php_packages | list | Platform dependent | List of packages to be installed, see `vars/Debian.yml` for an example. |
 | php_pecl_packages | list | `[]` | List of [pecl][] packages to install. |
@@ -28,6 +29,7 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 | hwr_options.enable_fpm | boolean | yes | Enable creation and installation of PHP-FPM, as well as creation of FPM pools defined in another variable. |
 | hwr_fpm_pools | list | Pool with DocRoot to `/var/www/default` | List of FPM pools to be created  and enabled |
 | hwr_php_fpm_default_chdir | string | `/var/www/default` | Default document root for the default PHP FPM pool |
+| php_extensions_config | dict | empty | Set custom config for php modules, overrides all other module configuration. |
 
 ### PECL packages
 
@@ -134,6 +136,38 @@ default values are show below:
 Variables `hwr_http_user` and `hwr_http_user_group` are defined on the OS variable
 file, and should be used on every pool you create.
 
+### Module configuration
+
+| Variable              | Required | Value Type | Parent Variable       | Description |
+|-----------------------|----------|------------|-----------------------|-------------|
+| php_extensions_config | No       | list<dict> |                       | List of extension configurations. |
+| file_name             | Yes      | string     | php_extensions_config | Name of the configuration file (ini) to be used. |
+| extension_path        | Yes      | string     | php_extensions_config | Path of the extension to be loaded, used by `extension` configuration option. |
+| <option name>         | No       | string     | php_extensions_config | Will be added into ini. |
+
+Module configuration can be separated from `php.ini`, which is often the default
+for some OSes (Debian family). You can use `php_extensions_config` variable to
+manage these configurations.
+
+These variable should contain a *lis* of *dicts*, if we want to manage [APC][]
+configuration for example:
+
+```yml
+# roles/my-php-role/group_vars/all.yml
+
+php_extensions_config:
+    - file_name: apc.ini
+      extension_path: apc.so
+      apc.enable: 1
+      apc.cache_by_default: 0
+      apc.enable_cli: 1
+      apc.write_lock: 0
+```
+
+By default, unmanaged extension configuration (and loading) will not be modified,
+you can use `hwr_options.remove_unmanaged_extension_configuration` to enable removing
+unmanaged extension configuration.
+
 ## Example playbook
 
     ---
@@ -156,6 +190,11 @@ file, and should be used on every pool you create.
         php_pecl_packages:
             - mongo
             - timezonedb
+        php_extensions_config:
+          - filename: apc.ini
+            extension_path: apc.so
+            apc.cache_by_default: 0
+            apc.enable_cli: 1
       roles:
         - { role: augustohp.php }
 

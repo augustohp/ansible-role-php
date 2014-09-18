@@ -31,5 +31,6 @@ hwr_path_php_fpm_conf: /etc/php5/fpm/php-fpm.conf
 hwr_path_php_fpm_pools: /etc/php5/fpm/pool.d
 hwr_http_user: www-data
 hwr_http_user_group: www-data
+hwr_path_php_mods_enabled: /etc/php5/conf.d
 
 # ex: filetype=ansible et sw=2 ts=2:

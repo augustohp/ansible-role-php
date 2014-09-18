@@ -6,10 +6,10 @@
 - include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
-- name: Compile desired php.ini
+- name: Compile desired php.ini.
   set_fact: php_ini="{{ hwr_config_php_ini + php_ini }}"
 
-- name: CLI's php.ini configuration
+- name: CLI's php.ini configuration.
   ini_file: >
     dest="{{ hwr_path_php_ini_cli }}"
     section="{{ item.section }}"
