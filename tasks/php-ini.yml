@@ -1,0 +1,36 @@
+# tasks/php-ini.fpm
+#
+# Defines PHP.ini configuration, and use it fir
+# different SAPIs.
+---
+
+- name: php.ini | Compile desired configuration.
+  set_fact:
+    _php_ini_configurations: "{{ hwr_config_php_ini + php_ini }}"
+
+- name: php.ini | Apply configuration.
+  ini_file: >
+    dest="{{ hwr_path_php_ini_cli }}"
+    section="{{ item.section }}"
+    option="{{ item.option }}"
+    value="{{ item.value }}"
+  with_items: _php_ini_configurations|list
+
+- name: php.ini | Link FPM's `php.ini` file to the main one.
+  file: >
+    src={{ hwr_path_php_ini_cli }}
+    dest={{ hwr_path_php_ini_fpm }}
+    state=link
+    force=yes
+  when: hwr_options.enable_fpm
+
+- name: php.ini | Link additional `php.ini` files to the main one.
+  file: >
+    src={{ hwr_path_php_ini_cli }}
+    dest={{ item }}
+    state="link"
+  with_items: php_ini_files
+  when:
+    - php_ini_files|count > 0
+
+# ex: ft=ansible et sw=2 ts=2:

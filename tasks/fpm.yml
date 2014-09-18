@@ -3,14 +3,6 @@
 # Manage FPM pools and configuration.
 ---
 
-- name: FPM | php.ini configuration.
-  ini_file: >
-    dest="{{ hwr_path_php_ini_fpm }}"
-    section="{{ item.section }}"
-    option="{{ item.option }}"
-    value="{{ item.value }}"
-  with_items: php_ini
-
 - name: FPM | php-fpm.conf configuration.
   template: >
     src="fpm.conf.j2"

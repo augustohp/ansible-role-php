@@ -23,6 +23,7 @@ See [defaults/main.yml][1] for variables available to overwrite, the most useful
 | hwr_options.php_version | float | null | Install a different PHP version on the system from the one provided by the distro. |
 | hwr_options.remove_unmanaged_extension_configuration | boolean | no | Remove unmanaged extension configuration files. |
 | php_ini | list | Default, development values | List of `php.ini` to use on environment |
+| php_ini_files | list | `[]` | List of `php.ini` files to apply changes to. (CLI and FPM not needed to appear in this list) |
 | php_packages | list | Platform dependent | List of packages to be installed, see `vars/Debian.yml` for an example. |
 | php_pecl_packages | list | `[]` | List of [pecl][] packages to install. |
 | php_packages_extra | list | `[]` | List of OS packages to install (Utility configuration). |
@@ -135,6 +136,37 @@ default values are show below:
 
 Variables `hwr_http_user` and `hwr_http_user_group` are defined on the OS variable
 file, and should be used on every pool you create.
+
+### `php.ini` configuration
+
+You can manage `php.ini` configurations using `php_ini` variable. If you want to display
+errors, for example:
+
+```yml
+# roles/my-php-role/group_vars/all.yml
+
+php_ini:
+    - section: "PHP"
+      option: "display_errors"
+      value: "On"
+    - section: "PHP"
+      option: "error_reporting"
+      value: "-1"
+```
+
+Configurations will always be applied to the CLI `php.ini` file. If `php-fpm` is
+enabled than its configuration will be changed too.
+
+When you use a web server, you probably want to apply changes to another `php.ini`
+files, this can be done with `php_ini_files` directive. It would look like this:
+
+```yml
+# roles/my-php-role/group_vars/all.yml
+
+php_ini_files:
+    - /etc/php5/apache2/php.ini
+    - /etc/php5/nginx/php.ini
+```
 
 ### Module configuration
 

@@ -6,17 +6,6 @@
 - include: "Debian.yml"
   when: ansible_os_family == "Debian"
 
-- name: Compile desired php.ini.
-  set_fact: php_ini="{{ hwr_config_php_ini + php_ini }}"
-
-- name: CLI's php.ini configuration.
-  ini_file: >
-    dest="{{ hwr_path_php_ini_cli }}"
-    section="{{ item.section }}"
-    option="{{ item.option }}"
-    value="{{ item.value }}"
-  with_items: php_ini
-
 - include: "fpm.yml"
   when: hwr_options.enable_fpm
 
@@ -25,5 +14,7 @@
 
 - include: "pecl.yml"
   when: php_pecl_packages is defined
+
+- include: "php-ini.yml"
 
 # ex: ft=ansible et sw=2 ts=2:

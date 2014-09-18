@@ -152,4 +152,6 @@ php_extensions_config:
     apc.enable: 1
     apc.enable_cli: 1
 
+php_ini_files: []
+
 # ex: filetype=ansible et ts=2 sw=2:
