@@ -1,6 +1,7 @@
 ---
 - name: Ensure php_packages_extra is defined.
-  set_fact: php_packages_extra=[]
+  set_fact:
+    php_packages_extra: []
   when: php_packages_extra is not defined
 
 - include: "Debian.yml"
